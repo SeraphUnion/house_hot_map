@@ -16,7 +16,7 @@ def buliding_find(page_num):
     
     conn = sqlite3.connect("db.sqlite3")
     c = conn.cursor()
-    c.execute('''CREATE TABLE IF NOT EXISTS taizhou
+    c.execute('''CREATE TABLE IF NOT EXISTS map_taizhou
            (
            id             integer PRIMARY KEY autoincrement,
            name           varchar(100) NOT NULL,
@@ -174,7 +174,7 @@ def buliding_find(page_num):
         build_sell_tel_info1 =build_sell_tel_info[n]
         build_sell_avg_info1 = build_sell_avg_info[n]
         build_howsell_info1 = build_howsell_info[n]
-        insert_sql = """INSERT INTO taizhou (id,name,info,mi2,tel,avg,howsell,getdate) VALUES (null,?,?,?,?,?,?,?);"""
+        insert_sql = """INSERT INTO map_taizhou (id,name,info,mi2,tel,avg,howsell,getdate) VALUES (null,?,?,?,?,?,?,?);"""
         c.execute(insert_sql,(build_name_info1,build_info_info1,build_sell_mi2_info1,build_sell_tel_info1,build_sell_avg_info1,build_howsell_info1,get_date_time))
 #        print(u'正在存储第%d页第%d条数据' %(page_now,n))
         conn.commit()
@@ -234,7 +234,7 @@ def letsgo():
 def get_gps():
     conn = sqlite3.connect("db.sqlite3")
     d = conn.cursor()
-    cursor = d.execute('select id,name,GPS_lat,GPS_lng from taizhou where GPS_lat is null')
+    cursor = d.execute('select id,name,GPS_lat,GPS_lng from map_taizhou where GPS_lat is null')
     alllist = cursor.fetchall()
     print(alllist)
     for row in alllist:
@@ -271,7 +271,7 @@ def get_gps():
                     print(neirong)
                     time.sleep(1)
                     break
-                update_sql = "UPDATE taizhou SET GPS_lat = ? , GPS_lng = ? " + "WHERE ID = ?"
+                update_sql = "UPDATE map_taizhou SET GPS_lat = ? , GPS_lng = ? " + "WHERE ID = ?"
                 d.execute(update_sql,(navi_lat,navi_lng,FC_id))
                 conn.commit()
             except: 

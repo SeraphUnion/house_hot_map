@@ -1,3 +1,4 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,25 +28,20 @@
 <script type="text/javascript">
     var map = new BMap.Map("container");          // 创建地图实例
 
-    var point = new BMap.Point(114.373485,36.110373);
-    map.centerAndZoom(point, 10);             // 初始化地图，设置中心点坐标和地图级别
-	map.setCurrentCity("安阳");		//设置当前显示城市
+    var point = new BMap.Point(121.267705,28.655381);
+    map.centerAndZoom(point, 14);             // 初始化地图，设置中心点坐标和地图级别
+	map.setCurrentCity("台州");		//设置当前显示城市
     map.enableScrollWheelZoom(); // 允许滚轮缩放
 
 	
 	
     var points =[
 
-
-{% for i in maplist %}
-  {"lng":"{{ taizhou.GPS_lng }}","lat":"{{ taizhou.GPS_lat }}","count":"{{taizhou.mi2}}"},
+{% for taizhou in maplist %}
+  {"lng":"{{taizhou.GPS_lng}}","lat":"{{taizhou.GPS_lat}}","count":"{{taizhou.mi2}}"},
 {% empty %}
-  暂时还没有发布的文章
+  No Data
 {% endfor %}
-
-
-{"lng":"114.363979","lat":"36.03773","count":"52"},
-
 
 ];//这里面添加经纬度
 
@@ -67,7 +63,7 @@
         其中 key 表示插值的位置, 0~1.
             value 为颜色值.
      */
-    heatmapOverlay = new BMapLib.HeatmapOverlay({"radius":100,"visible":true});
+    heatmapOverlay = new BMapLib.HeatmapOverlay({"radius":100,"visible":true,"opacity":10});
     map.addOverlay(heatmapOverlay);
     heatmapOverlay.setDataSet({data:points,max:100});
 	

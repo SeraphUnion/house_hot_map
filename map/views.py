@@ -5,6 +5,6 @@ from .models import taizhou
 def index(request):
     maplist=taizhou.objects.all()
     return render(request, 'map/hot.html', context={
-                      'mapidlist':maplist
+                      'maplist':maplist
                   })
 # Create your views here.
