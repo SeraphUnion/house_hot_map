@@ -36,6 +36,14 @@
 	
     var points =[
 
+
+{% for i in maplist %}
+  {"lng":"{{ taizhou.GPS_lng }}","lat":"{{ taizhou.GPS_lat }}","count":"{{taizhou.mi2}}"},
+{% empty %}
+  暂时还没有发布的文章
+{% endfor %}
+
+
 {"lng":"114.363979","lat":"36.03773","count":"52"},
 
 
