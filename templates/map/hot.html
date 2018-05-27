@@ -38,7 +38,7 @@
     var points =[
 
 {% for taizhou in maplist %}
-  {"lng":"{{taizhou.GPS_lng}}","lat":"{{taizhou.GPS_lat}}","count":"{{taizhou.mi2}}"},
+  {"lng":"{{taizhou.GPS_lng}}","lat":"{{taizhou.GPS_lat}}","count":"{{taizhou.avg}}"},
 {% empty %}
   No Data
 {% endfor %}
@@ -63,9 +63,9 @@
         其中 key 表示插值的位置, 0~1.
             value 为颜色值.
      */
-    heatmapOverlay = new BMapLib.HeatmapOverlay({"radius":100,"visible":true,"opacity":10});
+    heatmapOverlay = new BMapLib.HeatmapOverlay({"radius":100,"visible":true});
     map.addOverlay(heatmapOverlay);
-    heatmapOverlay.setDataSet({data:points,max:100});
+    heatmapOverlay.setDataSet({data:points,max:20000});
 	
     //closeHeatmap();
 	
