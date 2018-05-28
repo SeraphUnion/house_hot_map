@@ -204,19 +204,19 @@ def buliding_find(page_num):
 #================================================
 #加入时间概念，随机时间爬取
 def main():
-#    h = random.randint(1,4)
-#    m = random.randint(1,59)
-#    print ('hh:mm',h,m)
-#    while True:  
-#        now = datetime.datetime.now()
-#        print(now.hour, now.minute)
-#        if now.hour == h and now.minute == m:
-#            break  
+    h = random.randint(1,4)
+    m = random.randint(1,59)
+    print ('hh:mm',h,m)
+    while True:  
+        now = datetime.datetime.now()
+        print(now.hour, now.minute)
+        if now.hour == h and now.minute == m:
+            break  
 # 每隔60秒检测一次
-#        time.sleep(60)
+        time.sleep(60)
     letsgo()
     get_gps()
-#    waitToTomorrow()
+    waitToTomorrow()
     
 #================================================
 def letsgo():
