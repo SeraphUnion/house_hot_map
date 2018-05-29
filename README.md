@@ -13,8 +13,12 @@
  7、浏览器开启 192.168.31.xxx:8000
  
 ======================================================
-1、您可以使用 SQLite .schema 命令得到表的完整信息，如下所示
+
+1、您可以使用 SQLite .schema 命令得到表的完整信息，如下所示：
+sqlite3
+.open db.sqlite3
 .schema
+
 CREATE TABLE taizhou
            (
            id             integer PRIMARY KEY autoincrement, 
