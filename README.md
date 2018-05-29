@@ -33,19 +33,33 @@ CREATE TABLE taizhou
            GPS_lng        TEXT);
 
 2、django MTV中的M设置：
+
 blog/models.py
+
 from django.db import models
+
 from django.contrib.auth.models import User
+
 class taizhou(models.Model):
+
 	id = models.BigAutoField(primary_key=True)
+	
 	name = models.CharField(max_length=100)
+	
 	info = models.TextField(blank=True)
+	
 	mi2=models.BigIntegerField()
+	
 	tel = models.TextField(blank=True)
+	
 	avg=models.BigIntegerField()
+	
 	howsell= models.TextField(blank=True)
+	
     	getdate = models.DateTimeField()
+	
 	GPS_lat = models.TextField(blank=True)
+	
 	GPS_lat = models.TextField(blank=True)
 
 
