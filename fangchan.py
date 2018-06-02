@@ -9,7 +9,7 @@ import random
 from bs4 import BeautifulSoup
 
 
-def buliding_find(page_num):
+def buliding_find(page_num,cityid):
     
     global page_now,page_all,page_next,page_cha,buliding_sum,build_info,check_done
 
@@ -20,6 +20,7 @@ def buliding_find(page_num):
            (
            id             integer PRIMARY KEY autoincrement,
            name           varchar(100) NOT NULL,
+           cityid         text,
            info           text NOT NULL,
            mi2            bigint NOT NULL,
            tel            text NOT NULL,
@@ -50,9 +51,9 @@ def buliding_find(page_num):
 
     postdata={
         'keytype':' 1',
-        'keyword':'' ,
+        'keyword':'',
         'sid':'331000',
-        'districtid': '',
+        'districtid': cityid,
         'areaid':'' ,
         'dealprice':'' ,
         'propertystate':'',
@@ -63,7 +64,7 @@ def buliding_find(page_num):
         'page': page_num
         }
 
-    cookie_str = r'JSESSIONID=8A16C08E75765B848E460F642109709B; Hm_lvt_a1aa04488030878537d6d809bdd46a64=1525344891; Hm_lpvt_a1aa04488030878537d6d809bdd46a64=1525345832'
+    cookie_str = r'JSESSIONID=A7A0B5761B446844D47156AD8921701C; Hm_lvt_a1aa04488030878537d6d809bdd46a64=1525967319,1527953378; Hm_lpvt_a1aa04488030878537d6d809bdd46a64=1527955956'
     cookies = {}
     for line in cookie_str.split(';'):
         key, value = line.split('=', 1)
@@ -100,13 +101,13 @@ def buliding_find(page_num):
 #    soup = re.sub(r' ', "", soup) #替换空格
     soup = re.sub(r'	', "", soup)  #替换乱七八糟的字符
     soup = BeautifulSoup(soup,"lxml") #重新整理，lxml方式格式化
-#    print(soup.prettify())
+    print(soup.prettify())
 #=====分析网页字段=================================================================
 
     #取得当前页，总页码，
     for num_info in soup.find_all("font",class_='green1'):
         num_allinfo = re.findall(r'\d+',num_info.text)
-
+    print(num_allinfo)
     page_now = int(num_allinfo[0])
     page_all = int(num_allinfo[1])
     page_cha = int(num_allinfo[1])-int(num_allinfo[0])
@@ -174,14 +175,14 @@ def buliding_find(page_num):
         build_sell_tel_info1 =build_sell_tel_info[n]
         build_sell_avg_info1 = build_sell_avg_info[n]
         build_howsell_info1 = build_howsell_info[n]
-        insert_sql = """INSERT INTO map_taizhou (id,name,info,mi2,tel,avg,howsell,getdate) VALUES (null,?,?,?,?,?,?,?);"""
-        c.execute(insert_sql,(build_name_info1,build_info_info1,build_sell_mi2_info1,build_sell_tel_info1,build_sell_avg_info1,build_howsell_info1,get_date_time))
-#        print(u'正在存储第%d页第%d条数据' %(page_now,n))
+        insert_sql = """INSERT INTO map_taizhou (id,name,cityid,info,mi2,tel,avg,howsell,getdate) VALUES (null,?,?,?,?,?,?,?,?);"""
+        c.execute(insert_sql,(build_name_info1,cityid,build_info_info1,build_sell_mi2_info1,build_sell_tel_info1,build_sell_avg_info1,build_howsell_info1,get_date_time))
+        print(u'正在存储第%d页第%d条数据' %(page_now,n))
         conn.commit()
 #        time.sleep(1)
-#        print(u'第%d条数据存储完毕' %n)
+        print(u'第%d条数据存储完毕' %n)
         n=n+1
-#    print('第%d页数据存储完毕' %page_now)
+    print('第%d页数据存储完毕' %page_now)
     print(u'从刚才提取的情况看，你需要的数据共有%d条，共%d页，目前你已提取到了第%d页' %(buliding_sum,page_all,page_now))
     
     
@@ -204,32 +205,34 @@ def buliding_find(page_num):
 #================================================
 #加入时间概念，随机时间爬取
 def main():
-    h = random.randint(1,4)
-    m = random.randint(1,59)
-    print ('hh:mm',h,m)
-    while True:  
-        now = datetime.datetime.now()
-        print(now.hour, now.minute)
-        if now.hour == h and now.minute == m:
-            break  
+#    h = random.randint(1,4)
+#    m = random.randint(1,59)
+#    print ('hh:mm',h,m)
+#    while True:  
+#        now = datetime.datetime.now()
+#        print(now.hour, now.minute)
+#        if now.hour == h and now.minute == m:
+#            break  
 # 每隔60秒检测一次
-        time.sleep(60)
+#        time.sleep(60)
     letsgo()
     get_gps()
-    waitToTomorrow()
+#    waitToTomorrow()
     
 #================================================
 def letsgo():
     global page_now,page_all,page_next,page_cha,buliding_sum,build_info,check_done
-    page_num = 1
-    print('当前提取第1页数据')
-    buliding_find(page_num)
-    print('第1页数据提取完毕')
-
-    while check_done is False:
-        buliding_find(page_next)
-    else:
-        print('你需要的全部数据均已提取完毕！')
+    citylist = ['331001','331002','331003','331004','331021','331022','331023','331024','331081','331082']
+    for cityid in citylist:
+        print('准备提取城市：',cityid)
+        page_num=1
+        print('当前提取第1页数据')
+        buliding_find(page_num,cityid)
+        print('第1页数据提取完毕')
+        while check_done is False:
+            buliding_find(page_next,cityid)
+        else:
+            print('你需要的全部数据均已提取完毕！')
         
 def get_gps():
     conn = sqlite3.connect("db.sqlite3")
