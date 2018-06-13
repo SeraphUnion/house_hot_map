@@ -208,6 +208,7 @@ def main():
     h = random.randint(1,4)
     m = random.randint(1,59)
     print ('hh:mm',h,m)
+    get_gps()
     while True:  
         now = datetime.datetime.now()
         print(now.hour, now.minute)
@@ -293,7 +294,7 @@ def getjson(QUERY_MESSAGE):
     }
 
     PLACE_MESSAGE={
-        'ak':'EGCf8va5kBw2iFybsuEOyzDC9c3VfaKD',
+        'ak':'i355vlDnD1FIvqUopPeZzKPirCmQhhXO',
         'query':QUERY_MESSAGE,
         'output':'json',
         'region':244,
