@@ -238,7 +238,7 @@ def letsgo():
 def get_gps():
     conn = sqlite3.connect("db.sqlite3")
     d = conn.cursor()
-    cursor = d.execute('select id,name,GPS_lat,GPS_lng from map_taizhou where GPS_lat is null')
+    cursor = d.execute("select id,name,GPS_lat,GPS_lng from map_taizhou where (julianday('now')-julianday(strftime('%Y-%m-%d',datetime(getdate))))<= 4 and (julianday('now')-julianday(strftime('%Y-%m-%d',datetime(getdate))))>= 0 and GPS_lng is null;")
     alllist = cursor.fetchall()
     print(alllist)
     for row in alllist:
