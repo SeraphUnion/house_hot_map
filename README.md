@@ -2,7 +2,7 @@
  
  2、sudo apt-get install python3 python3-pip screen sqlite3
  
- 3、pip3 install bs4 django
+ 3、pip3 install bs4 django requests lxml
  
  4、python3 manage.py runserver 192.168.31.xxx:8000（本机ip）
  
